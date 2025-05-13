@@ -1,5 +1,7 @@
 # Pennie - AI-Powered Expense Tracking
 
+![Pennie Logo](frontend/public/logo.png)
+
 Pennie is a modern expense tracking application that uses AI to automatically categorize your expenses. It features natural language processing for expense entry, receipt scanning, and bank account integration.
 
 ## Features

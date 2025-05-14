@@ -1,4 +1,4 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 
 interface DataItem {
   name: string;
@@ -11,11 +11,7 @@ interface BarChartCardProps {
   color?: string;
 }
 
-const BarChartCard = ({ 
-  title, 
-  data, 
-  color = '#8884d8' 
-}: BarChartCardProps) => {
+const BarChartCard = ({ title, data, color = "#8884d8" }: BarChartCardProps) => {
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h3 className="text-xl font-semibold mb-4">{title}</h3>
@@ -30,4 +26,4 @@ const BarChartCard = ({
   );
 };
 
-export default BarChartCard; 
+export default BarChartCard;

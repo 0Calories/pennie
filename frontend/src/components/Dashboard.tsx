@@ -33,28 +33,6 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Quick Add Section */}
-      <section className="mb-8">
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-2xl font-bold mb-4">Quick Add</h2>
-          <form onSubmit={handleExpenseSubmit} className="flex gap-2">
-            <input
-              type="text"
-              value={expenseInput}
-              onChange={(e) => setExpenseInput(e.target.value)}
-              placeholder="Enter expense (e.g., 'Starbucks $7 this morning')"
-              className="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <button
-              type="submit"
-              className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
-            >
-              Add
-            </button>
-          </form>
-        </div>
-      </section>
-
       {/* Charts Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         {/* Pie Chart */}
@@ -116,6 +94,28 @@ const Dashboard: React.FC = () => {
           <div className="p-4 bg-yellow-50 rounded-lg">
             <p className="text-lg">⚡ Tip: Consider meal prepping to reduce food expenses next week.</p>
           </div>
+        </div>
+      </section>
+
+      {/* Quick Add Section */}
+      <section className="mb-8">
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-2xl font-bold mb-4">Quick Add</h2>
+          <form onSubmit={handleExpenseSubmit} className="flex gap-2">
+            <input
+              type="text"
+              value={expenseInput}
+              onChange={(e) => setExpenseInput(e.target.value)}
+              placeholder="Enter expense (e.g., 'Starbucks $7 this morning')"
+              className="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              Add
+            </button>
+          </form>
         </div>
       </section>
     </div>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 
 interface DataItem {
@@ -14,11 +13,11 @@ interface PieChartCardProps {
 
 const DEFAULT_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-const PieChartCard: React.FC<PieChartCardProps> = ({ 
+const PieChartCard = ({ 
   title, 
   data, 
   colors = DEFAULT_COLORS 
-}) => {
+}: PieChartCardProps) => {
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h3 className="text-xl font-semibold mb-4">{title}</h3>

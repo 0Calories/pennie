@@ -22,7 +22,7 @@ const mockWeeklyData = [
   { name: 'Sun', amount: 50 },
 ];
 
-const Dashboard: React.FC = () => {
+const Dashboard = () => {
   const [expenseInput, setExpenseInput] = useState('');
 
   const handleExpenseSubmit = (e: React.FormEvent) => {

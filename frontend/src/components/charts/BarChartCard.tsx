@@ -1,4 +1,3 @@
-import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 
 interface DataItem {
@@ -12,11 +11,11 @@ interface BarChartCardProps {
   color?: string;
 }
 
-const BarChartCard: React.FC<BarChartCardProps> = ({ 
+const BarChartCard = ({ 
   title, 
   data, 
   color = '#8884d8' 
-}) => {
+}: BarChartCardProps) => {
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h3 className="text-xl font-semibold mb-4">{title}</h3>

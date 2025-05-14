@@ -1,4 +1,3 @@
-import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 
 interface DataItem {
@@ -12,11 +11,11 @@ interface LineChartCardProps {
   color?: string;
 }
 
-const LineChartCard: React.FC<LineChartCardProps> = ({ 
+const LineChartCard = ({ 
   title, 
   data, 
   color = '#8884d8' 
-}) => {
+}: LineChartCardProps) => {
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h3 className="text-xl font-semibold mb-4">{title}</h3>

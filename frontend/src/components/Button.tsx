@@ -5,12 +5,12 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
-const Button: React.FC<ButtonProps> = ({ 
+const Button = ({ 
   variant = 'primary', 
   children, 
   className = '',
   ...props 
-}) => {
+}: ButtonProps) => {
   const baseClasses = "px-3 py-1 rounded text-white transition-colors";
   const variantClasses = variant === 'primary' 
     ? "bg-blue-500 hover:bg-blue-600" 

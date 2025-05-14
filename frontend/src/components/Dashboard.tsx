@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, LineChart, Line } from 'recharts';
+import PieChartCard from './charts/PieChartCard';
+import BarChartCard from './charts/BarChartCard';
+import LineChartCard from './charts/LineChartCard';
+import Button from './Button';
 
 // Temporary mock data - replace with real data later
 const mockCategoryData = [
@@ -19,8 +22,6 @@ const mockWeeklyData = [
   { name: 'Sun', amount: 50 },
 ];
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
-
 const Dashboard: React.FC = () => {
   const [expenseInput, setExpenseInput] = useState('');
 
@@ -35,50 +36,18 @@ const Dashboard: React.FC = () => {
     <div className="container mx-auto px-4 py-8">
       {/* Charts Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        {/* Pie Chart */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-xl font-semibold mb-4">Category Breakdown</h3>
-          <PieChart width={300} height={300}>
-            <Pie
-              data={mockCategoryData}
-              cx={150}
-              cy={150}
-              innerRadius={60}
-              outerRadius={80}
-              fill="#8884d8"
-              dataKey="value"
-            >
-              {mockCategoryData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-            <Tooltip />
-          </PieChart>
-        </div>
-
-        {/* Bar Chart */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-xl font-semibold mb-4">Weekly Spending</h3>
-          <BarChart width={300} height={300} data={mockWeeklyData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="amount" fill="#8884d8" />
-          </BarChart>
-        </div>
-
-        {/* Line Chart */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-xl font-semibold mb-4">Monthly Trend</h3>
-          <LineChart width={300} height={300} data={mockWeeklyData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Line type="monotone" dataKey="amount" stroke="#8884d8" />
-          </LineChart>
-        </div>
+        <PieChartCard 
+          title="Category Breakdown"
+          data={mockCategoryData}
+        />
+        <BarChartCard 
+          title="Weekly Spending"
+          data={mockWeeklyData}
+        />
+        <LineChartCard 
+          title="Monthly Trend"
+          data={mockWeeklyData}
+        />
       </div>
 
       {/* Insights Feed */}
@@ -109,12 +78,9 @@ const Dashboard: React.FC = () => {
               placeholder="Enter expense (e.g., 'Starbucks $7 this morning')"
               className="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <button
-              type="submit"
-              className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
-            >
+            <Button variant="primary">
               Add
-            </button>
+            </Button>
           </form>
         </div>
       </section>

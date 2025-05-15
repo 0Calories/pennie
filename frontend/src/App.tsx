@@ -1,5 +1,5 @@
 import Dashboard from './components/Dashboard';
-import Navbar from './components/navbar/Navbar';
+import Navbar from './components/sidebar/Sidebar';
 import { ThemeProvider } from './theme/ThemeProvider';
 import './App.css';
 

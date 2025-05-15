@@ -1,17 +1,15 @@
 import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary';
   children: React.ReactNode;
 }
 
-const Button = ({ variant = 'primary', children, className = '', ...props }: ButtonProps) => {
-  const baseClasses = 'px-3 py-1 rounded text-white transition-colors';
-  const variantClasses =
-    variant === 'primary' ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-500 hover:bg-gray-600';
+const Button = ({ children, className = '', ...props }: ButtonProps) => {
+  const baseClasses =
+    'bg-pennie-500 hover:bg-pennie-600 px-3 py-1 rounded text-white transition-colors';
 
   return (
-    <button className={`${baseClasses} ${variantClasses} ${className}`} {...props}>
+    <button className={`${baseClasses} ${className}`} {...props}>
       {children}
     </button>
   );

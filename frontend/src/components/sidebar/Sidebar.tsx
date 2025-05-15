@@ -1,5 +1,5 @@
 import { ThemeToggle } from '../../theme/ThemeToggle';
-import NavbarButton from './NavbarButton';
+import { SidebarButton } from './SidebarButton';
 
 const Navbar = () => {
   return (
@@ -15,10 +15,10 @@ const Navbar = () => {
           <ThemeToggle />
         </div>
         <nav className="flex flex-col space-y-4">
-          <NavbarButton text="Home" className="w-full" />
-          <NavbarButton text="Dashboard" className="w-full" />
-          <NavbarButton text="Transactions" className="w-full" />
-          <NavbarButton text="Settings" className="w-full" />
+          <SidebarButton text="Home" />
+          <SidebarButton text="Dashboard" />
+          <SidebarButton text="Transactions" />
+          <SidebarButton text="Settings" />
         </nav>
       </div>
     </aside>

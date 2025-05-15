@@ -1,4 +1,4 @@
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
+import { CartesianGrid, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 
 interface DataItem {
   name: string;
@@ -11,7 +11,7 @@ interface LineChartCardProps {
   color?: string;
 }
 
-const LineChartCard = ({ title, data, color = "#8884d8" }: LineChartCardProps) => {
+const LineChartCard = ({ title, data, color = '#8884d8' }: LineChartCardProps) => {
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h3 className="text-xl font-semibold mb-4">{title}</h3>

@@ -1,9 +1,8 @@
-import { ThemeToggle } from '../../theme/ThemeToggle';
 import { SidebarButton } from './SidebarButton';
 
 const Navbar = () => {
   return (
-    <aside className="fixed left-0 top-0 h-dvh w-64 bg-white dark:bg-slate-800 shadow-lg transition-colors">
+    <aside className="fixed left-0 top-0 h-dvh w-48 bg-white dark:bg-slate-800 shadow-lg transition-colors">
       <div className="flex flex-col h-full p-4">
         <div className="flex flex-row items-center justify-between mb-8">
           <div className="flex items-center">
@@ -12,7 +11,6 @@ const Navbar = () => {
               Pennie
             </p>
           </div>
-          <ThemeToggle />
         </div>
         <nav className="flex flex-col space-y-4">
           <SidebarButton text="Home" />

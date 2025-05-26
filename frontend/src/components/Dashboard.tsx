@@ -1,3 +1,5 @@
+import { sampleAIFunction } from '../utils/openAI';
+import Button from './Button';
 import BarChartCard from './charts/BarChartCard';
 import LineChartCard from './charts/LineChartCard';
 import PieChartCard from './charts/PieChartCard';
@@ -28,6 +30,7 @@ const Dashboard = () => {
         {/* <PieChartCard title="Category Breakdown" data={mockCategoryData} />
         <BarChartCard title="Weekly Spending" data={mockWeeklyData} />
         <LineChartCard title="Monthly Trend" data={mockWeeklyData} /> */}
+        <Button onClick={() => sampleAIFunction()}>Test</Button>
       </div>
     </div>
   );

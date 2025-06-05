@@ -18,25 +18,34 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-// OpenAI API proxy endpoint
-app.post('/api/ai', (async (req, res) => {
+app.post('/api/parse-expense', (async (req, res) => {
   try {
-    const { messages } = req.body;
+    const { text } = req.body;
 
-    if (!messages || !Array.isArray(messages)) {
-      return res.status(400).json({ error: 'Invalid request format' });
+    if (!text || typeof text !== 'string') {
+      return res.status(400).json({ error: 'Please provide a text string to parse' });
     }
 
     const completion = await openai.chat.completions.create({
-      messages,
-      model: 'gpt-3.5-turbo',
+      messages: [
+        {
+          role: 'system',
+          content: '',
+        },
+        {
+          role: 'user',
+          content: text,
+        },
+      ],
+      model: 'gpt-4.1-mini',
+      response_format: { type: 'json_object' },
     });
 
-    res.json(completion);
+    res.json(completion.choices[0].message);
   } catch (error) {
     console.error('OpenAI API Error:', error);
     res.status(500).json({
-      error: 'Failed to process request',
+      error: 'Failed to parse expense',
       details: error instanceof Error ? error.message : 'Unknown error',
     });
   }

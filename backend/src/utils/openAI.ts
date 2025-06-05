@@ -41,7 +41,7 @@ const expenseSystemPrompt = `
     If an expense does not fit into any of the categories, infer the category based on the name of the expense.
 `;
 
-const parseExpense = async (message: string) => {
+export const parseExpense = async (message: string) => {
   const response = await openai.responses.parse({
     model: 'gpt-4o-mini',
     input: [

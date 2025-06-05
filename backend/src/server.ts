@@ -1,7 +1,7 @@
-import { PrismaClient } from '@prisma/client';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { Request, Response, RequestHandler } from 'express';
+import { PrismaClient } from './generated/prisma';
 import { InferZodType } from './middleware/types';
 import { validateRequest, validateResponse } from './middleware/validation';
 import {

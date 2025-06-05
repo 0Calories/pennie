@@ -4,6 +4,9 @@ import { ExpenseSchema } from '../types';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
+// Maximum length for expense messages to prevent abuse
+const MAX_MESSAGE_LENGTH = 100;
+
 const expenseSystemPrompt = `
     You are an assistant for an expense tracking application. 
     When given a message describing an expense, extract the cost, name of the expense, and categorize the expense. 
@@ -36,20 +39,61 @@ const expenseSystemPrompt = `
     If the expense does not fit into any of the categories and you cannot confidently infer the category, return 'Other'.
 `;
 
-export const parseExpense = async (message: string) => {
-  const response = await openai.responses.parse({
-    model: 'gpt-4o-mini',
-    input: [
-      {
-        role: 'system',
-        content: expenseSystemPrompt,
-      },
-      { role: 'user', content: message },
-    ],
-    text: {
-      format: zodTextFormat(ExpenseSchema, 'expense_schema'),
-    },
-  });
+/**
+ * Validates and sanitizes the input message
+ */
+const validateMessage = (message: string): string => {
+  if (!message || typeof message !== 'string') {
+    throw new Error('Invalid message: Message must be a non-empty string');
+  }
 
-  return response.output_parsed;
+  const sanitized = message.trim();
+  if (sanitized.length === 0) {
+    throw new Error('Invalid message: Message cannot be empty');
+  }
+
+  if (sanitized.length > MAX_MESSAGE_LENGTH) {
+    throw new Error(
+      `Invalid message: Message exceeds maximum length of ${MAX_MESSAGE_LENGTH} characters`
+    );
+  }
+
+  // Basic sanitization to prevent prompt injection
+  // Remove any potential prompt injection patterns
+  return sanitized.replace(/[<>{}[\]]/g, '');
+};
+
+export const parseExpense = async (message: string) => {
+  try {
+    const sanitizedMessage = validateMessage(message);
+
+    const response = await openai.responses.parse({
+      model: 'o4-mini',
+      input: [
+        {
+          role: 'system',
+          content: expenseSystemPrompt,
+        },
+        { role: 'user', content: sanitizedMessage },
+      ],
+      text: {
+        format: zodTextFormat(ExpenseSchema, 'expense_schema'),
+      },
+    });
+
+    if (!response.output_parsed) {
+      throw new Error('Failed to parse expense data');
+    }
+
+    return response.output_parsed;
+  } catch (error) {
+    // Log the error for monitoring
+    console.error('Error parsing expense:', error);
+
+    // Rethrow with a user-friendly message
+    if (error instanceof Error) {
+      throw new Error(`Failed to process expense: ${error.message}`);
+    }
+    throw new Error('An unexpected error occurred while processing the expense');
+  }
 };

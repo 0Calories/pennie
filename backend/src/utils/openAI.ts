@@ -1,14 +1,8 @@
 import { OpenAI } from 'openai';
 import { zodTextFormat } from 'openai/helpers/zod';
-import { z } from 'zod';
+import { ExpenseSchema } from '../types';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
-const ExpenseSchema = z.object({
-  name: z.string(),
-  cost: z.number(),
-  category: z.string(),
-});
 
 const expenseSystemPrompt = `
     You are an assistant for an expense tracking application. 
@@ -39,6 +33,7 @@ const expenseSystemPrompt = `
     - Other
 
     If an expense does not fit into any of the categories, infer the category based on the name of the expense.
+    If the expense does not fit into any of the categories and you cannot confidently infer the category, return 'Other'.
 `;
 
 export const parseExpense = async (message: string) => {

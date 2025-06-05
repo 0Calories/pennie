@@ -1,4 +1,5 @@
 import Dashboard from './components/Dashboard';
+import ExpenseInput from './components/ExpenseInput';
 import Navbar from './components/sidebar/Sidebar';
 import { ThemeProvider } from './theme/ThemeProvider';
 import './App.css';
@@ -11,6 +12,8 @@ function App() {
         <main className="ml-64 min-h-screen w-auto p-8">
           <Dashboard />
         </main>
+
+        <ExpenseInput />
       </div>
     </ThemeProvider>
   );

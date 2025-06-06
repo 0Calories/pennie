@@ -26,8 +26,8 @@ model User {
 
 model Expense {
   id          String         @id @default(uuid())
-  amount      Float
-  description String
+  cost        Float
+  name        String
   date        DateTime       @default(now())
   category    ExpenseCategory
   user        User           @relation(fields: [userId], references: [id])

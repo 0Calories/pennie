@@ -1,0 +1,1 @@
+export const MAX_EXPENSE_NAME_LENGTH = 100;

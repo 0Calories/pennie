@@ -3,6 +3,6 @@ import expenseRoutes from './expenses';
 
 const router = Router();
 
-router.use('/api', expenseRoutes);
+router.use('/api/expenses', expenseRoutes);
 
 export default router;

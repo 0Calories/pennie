@@ -15,7 +15,7 @@ const router = Router();
 const prisma = new PrismaClient();
 
 router.post(
-  '/parse-expense',
+  '/parse',
   validateRequest(ParseExpenseRequestSchema),
   validateResponse(ApiSuccessResponseSchema),
   async (req, res) => {
@@ -34,7 +34,7 @@ router.post(
 );
 
 router.post(
-  '/save-expense',
+  '/save',
   validateRequest(SaveExpenseRequestSchema),
   validateResponse(ApiSuccessResponseSchema),
   async (req, res) => {

@@ -1,7 +1,11 @@
 import { Router } from 'express';
 import { InferZodType } from '../middleware/types';
 import { validateRequest, validateResponse } from '../middleware/validation';
-import { ApiSuccessResponseSchema, ParseExpenseRequestSchema } from '../types';
+import {
+  ApiSuccessResponseSchema,
+  ParseExpenseRequestSchema,
+  SaveExpenseRequestSchema,
+} from '../types';
 import { ApiErrorResponseSchema } from '../types';
 import { parseExpense } from '../utils/openAI';
 
@@ -20,6 +24,27 @@ router.post(
       console.error('OpenAI API Error:', error);
       res.status(500).json({
         error: 'Failed to parse expense',
+        details: error instanceof Error ? error.message : 'Unknown error',
+      } satisfies typeof ApiErrorResponseSchema._type);
+    }
+  }
+);
+
+router.post(
+  '/save-expense',
+  validateRequest(SaveExpenseRequestSchema),
+  validateResponse(ApiSuccessResponseSchema),
+  async (req, res) => {
+    try {
+      const { expense } = req.validatedData as InferZodType<typeof SaveExpenseRequestSchema>;
+      console.log('saving expense: ');
+      console.dir(expense);
+      req.validatedResponse!.json({ data: expense });
+      // TODO: save expense to database
+    } catch (error) {
+      console.error('Error saving expense:', error);
+      res.status(500).json({
+        error: 'Failed to save expense',
         details: error instanceof Error ? error.message : 'Unknown error',
       } satisfies typeof ApiErrorResponseSchema._type);
     }

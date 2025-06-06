@@ -13,7 +13,12 @@ export const ParseExpenseRequestSchema = z.object({
   message: z.string().min(1, 'Message cannot be empty'),
 });
 
+export const SaveExpenseRequestSchema = z.object({
+  expense: ExpenseSchema,
+});
+
 export type ParseExpenseRequest = z.infer<typeof ParseExpenseRequestSchema>;
+export type SaveExpenseRequest = z.infer<typeof SaveExpenseRequestSchema>;
 
 // API Response Types
 export const ApiErrorResponseSchema = z.object({

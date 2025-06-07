@@ -2,10 +2,10 @@ import { SaveExpenseRequest } from '@shared/types/api';
 import { ExpenseCategory, getExpenseCategoryDisplayName } from '@shared/types/expense';
 import { useEffect, useState } from 'react';
 import { API_ENDPOINTS } from '../config/api';
-import Button from './Button';
 import Modal from './Modal';
 import Spinner from './Spinner';
 import TextInput from './TextInput';
+import { Button } from './core/Button';
 
 interface ExpenseSubmissionModalProps {
   isOpen: boolean;

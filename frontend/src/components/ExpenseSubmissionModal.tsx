@@ -1,5 +1,7 @@
+import { SaveExpenseRequest } from '@shared/types/api';
 import { ExpenseCategory, getExpenseCategoryDisplayName } from '@shared/types/expense';
 import { useEffect, useState } from 'react';
+import { API_ENDPOINTS } from '../config/api';
 import Button from './Button';
 import Modal from './Modal';
 import Spinner from './Spinner';
@@ -9,7 +11,7 @@ interface ExpenseSubmissionModalProps {
   onClose: () => void;
   initialExpense?: {
     name: string;
-    cost: string;
+    cost: number;
     category: ExpenseCategory;
   };
   isLoading?: boolean;
@@ -22,7 +24,7 @@ export default function ExpenseSubmissionModal({
   isLoading = false,
 }: ExpenseSubmissionModalProps) {
   const [name, setName] = useState('');
-  const [cost, setCost] = useState('');
+  const [cost, setCost] = useState(0);
   const [category, setCategory] = useState<ExpenseCategory>(ExpenseCategory.OTHER);
 
   useEffect(() => {
@@ -32,18 +34,42 @@ export default function ExpenseSubmissionModal({
       setCategory(initialExpense.category);
     } else {
       setName('');
-      setCost('');
+      setCost(0);
       setCategory(ExpenseCategory.OTHER);
     }
   }, [initialExpense, isOpen]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // TODO: Submit expense to backend
+    if (!name || !cost || !category) {
+      return;
+    }
+
+    try {
+      const response = await fetch(API_ENDPOINTS.saveExpense, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({
+          expense: {
+            name,
+            cost,
+            category,
+          },
+        } satisfies SaveExpenseRequest),
+      });
+
+      const data = await response.json();
+      console.dir(data);
+    } catch (error) {
+      console.error('Error saving expense:', error);
+    }
 
     setName('');
-    setCost('');
+    setCost(0);
     setCategory(ExpenseCategory.OTHER);
     onClose();
   };
@@ -87,7 +113,7 @@ export default function ExpenseSubmissionModal({
             type="number"
             id="cost"
             value={cost}
-            onChange={(e) => setCost(e.target.value)}
+            onChange={(e) => setCost(Number(e.target.value))}
             required
             min="0"
             step="0.01"

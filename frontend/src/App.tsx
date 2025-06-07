@@ -19,7 +19,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [parsedExpense, setParsedExpense] = useState<{
     name: string;
-    cost: string;
+    cost: number;
     category: ExpenseCategory;
   } | null>(null);
 
@@ -49,7 +49,7 @@ function App() {
       const successData = data as ApiSuccessResponse<ParsedExpense>;
       setParsedExpense({
         name: successData.data.name,
-        cost: successData.data.cost.toString(),
+        cost: Number(successData.data.cost),
         category: successData.data.category as ExpenseCategory,
       });
     } catch (error) {

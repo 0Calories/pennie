@@ -86,7 +86,12 @@ export default function ExpenseSubmissionModal({
             Expense Name
           </label>
           <div className="relative">
-            <TextInput value={name} onChange={setName} disabled={isLoading} />
+            <TextInput
+              value={name}
+              onChange={setName}
+              disabled={isLoading}
+              className="bg-white dark:bg-slate-700"
+            />
             {isLoading && (
               <div className="absolute right-3 top-1/2 -translate-y-1/2">
                 <Spinner size="sm" />

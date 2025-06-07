@@ -12,7 +12,8 @@ const expenseSystemPrompt = `
     When given a message describing an expense, extract the cost, name of the expense, and categorize the expense. 
     If cost or name is missing, return an error. 
     Example: '$5 coffee' will return cost $5, name: 'Coffee", and category: 'Coffee'.
-    Use proper capitalization for the name and category.
+    Use proper capitalization for the name.
+    Category should be returned in all caps.
     Some identifiers for categories are:
 
     - Food

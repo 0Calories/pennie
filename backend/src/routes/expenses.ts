@@ -24,6 +24,7 @@ router.post(
     try {
       const { message } = req.validatedData as InferZodType<typeof ParseExpenseRequestSchema>;
       const parsedExpense = await parseExpense(message);
+      parsedExpense.category = parsedExpense.category.toUpperCase() as ExpenseCategory;
       req.validatedResponse!.json({ data: parsedExpense });
     } catch (error) {
       console.error('OpenAI API Error:', error);

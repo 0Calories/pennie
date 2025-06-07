@@ -21,19 +21,21 @@ export default function ExpenseSubmissionModal({
   initialExpense,
   isLoading = false,
 }: ExpenseSubmissionModalProps) {
-  const [name, setName] = useState(initialExpense?.name ?? '');
-  const [cost, setCost] = useState(initialExpense?.cost ?? '');
-  const [category, setCategory] = useState<ExpenseCategory>(
-    initialExpense?.category ?? ExpenseCategory.OTHER
-  );
+  const [name, setName] = useState('');
+  const [cost, setCost] = useState('');
+  const [category, setCategory] = useState<ExpenseCategory>(ExpenseCategory.OTHER);
 
   useEffect(() => {
     if (initialExpense) {
       setName(initialExpense.name);
       setCost(initialExpense.cost);
       setCategory(initialExpense.category);
+    } else {
+      setName('');
+      setCost('');
+      setCategory(ExpenseCategory.OTHER);
     }
-  }, [initialExpense]);
+  }, [initialExpense, isOpen]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

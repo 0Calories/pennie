@@ -24,6 +24,7 @@ function App() {
   } | null>(null);
 
   const handleExpenseSubmit = async (message: string) => {
+    setParsedExpense(null);
     setIsModalOpen(true);
     setIsLoading(true);
 

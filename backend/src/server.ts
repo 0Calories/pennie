@@ -1,13 +1,15 @@
 import cors from 'cors';
-import dotenv from 'dotenv';
 import express from 'express';
-import { PrismaClient } from './generated/prisma';
 import routes from './routes';
 
-dotenv.config();
+// Only load default .env if not in test environment
+if (process.env.NODE_ENV === 'test') {
+  require('dotenv').config({ path: '.env.test' });
+} else {
+  require('dotenv').config();
+}
 
 const app = express();
-const prisma = new PrismaClient();
 
 app.use(cors());
 app.use(express.json());
@@ -15,6 +17,11 @@ app.use(routes);
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Only start the server if not in test environment
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+export default app;

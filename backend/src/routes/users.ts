@@ -26,6 +26,8 @@ const authLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
+  // Skip rate limiting in test environment
+  skip: () => process.env.NODE_ENV === 'test',
 });
 
 router.use('/login', authLimiter);

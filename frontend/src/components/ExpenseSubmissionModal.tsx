@@ -140,12 +140,7 @@ export default function ExpenseSubmissionModal({
         </div>
 
         <div className="flex justify-center space-x-3 mt-20">
-          <Button
-            type="button"
-            onClick={onClose}
-            disabled={isLoading}
-            className="bg-slate-200 hover:bg-slate-300 text-slate-800 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-100 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
+          <Button type="button" onClick={onClose} disabled={isLoading} variant="destructive">
             Cancel
           </Button>
           <Button type="submit" disabled={isLoading}>

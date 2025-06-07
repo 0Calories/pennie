@@ -1,9 +1,30 @@
 @import "tailwindcss";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 /* Custom styles can go here */
+@theme {
+  --color-pennie-900: #7b2d13;
+  --color-pennie-800: #9c360c;
+  --color-pennie-700: #be4b0c;
+  --color-pennie-600: #e27a0e;
+  --color-pennie-500: #f77118;
+  --color-pennie-400: #f9913e;
+  --color-pennie-300: #fcb975;
+  --color-pennie-200: #fdd3a4;
+  --color-pennie-100: #ffedd5;
+
+  --color-slate-900: #0f172a;
+  --color-slate-800: #1e293b;
+  --color-slate-700: #334155;
+  --color-slate-600: #475569;
+  --color-slate-500: #64748b;
+  --color-slate-400: #94a3b8;
+  --color-slate-300: #cbd5e1;
+  --color-slate-200: #e2e8f0;
+  --color-slate-100: #f1f5f9;
+
+  --color-red-500: #ef4444;
+  --color-red-400: #f87171;
+}
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -30,6 +51,7 @@ a:hover {
 }
 
 body {
+  background-color: #0f172a;
   margin: 0;
   display: flex;
   place-items: center;
@@ -49,11 +71,11 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
+  /* TODO: Add hover color */
   border-color: #646cff;
 }
 button:focus,

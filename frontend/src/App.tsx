@@ -1,8 +1,3 @@
-import Dashboard from './components/Dashboard';
-import ExpenseInput from './components/ExpenseInput';
-import Navbar from './components/sidebar/Sidebar';
-import { ThemeProvider } from './theme/ThemeProvider';
-import './App.css';
 import type {
   ApiErrorResponse,
   ApiSuccessResponse,
@@ -11,8 +6,12 @@ import type {
 } from '@shared/types/api';
 import { ExpenseCategory } from '@shared/types/expense';
 import { useState } from 'react';
+import Dashboard from './components/Dashboard';
+import ExpenseInput from './components/ExpenseInput';
 import ExpenseSubmissionModal from './components/ExpenseSubmissionModal';
+import Navbar from './components/sidebar/Sidebar';
 import { API_ENDPOINTS } from './config/api';
+import { ThemeProvider } from './theme/ThemeProvider';
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);

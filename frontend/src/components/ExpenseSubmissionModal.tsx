@@ -81,7 +81,7 @@ export default function ExpenseSubmissionModal() {
           </select>
         </div>
 
-        <div className="flex justify-end space-x-3 mt-6">
+        <div className="flex justify-center space-x-3 mt-20">
           <Button
             type="button"
             onClick={() => {}}

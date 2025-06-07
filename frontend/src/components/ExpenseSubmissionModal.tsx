@@ -3,11 +3,15 @@ import { useState } from 'react';
 import Button from './Button';
 import Modal from './Modal';
 
-export default function ExpenseSubmissionModal() {
+interface ExpenseSubmissionModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function ExpenseSubmissionModal({ isOpen, onClose }: ExpenseSubmissionModalProps) {
   const [name, setName] = useState('');
   const [cost, setCost] = useState('');
   const [category, setCategory] = useState<ExpenseCategory>(ExpenseCategory.OTHER);
-  const [isOpen, setIsOpen] = useState(true);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,7 +24,7 @@ export default function ExpenseSubmissionModal() {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title="Add New Expense">
+    <Modal isOpen={isOpen} onClose={onClose} title="Add New Expense">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label

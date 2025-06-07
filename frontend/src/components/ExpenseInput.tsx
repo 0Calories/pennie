@@ -7,7 +7,11 @@ import type {
 import { useState } from 'react';
 import { API_ENDPOINTS } from '../config/api';
 
-export default function ExpenseInput() {
+interface ExpenseInputProps {
+  onSubmit: () => void;
+}
+
+export default function ExpenseInput({ onSubmit }: ExpenseInputProps) {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -19,6 +23,7 @@ export default function ExpenseInput() {
       return;
     }
 
+    onSubmit();
     setIsLoading(true);
 
     try {

@@ -2,6 +2,7 @@
 
 /* Custom styles can go here */
 @theme {
+  --color-pennie-950: #421408;
   --color-pennie-900: #7b2d13;
   --color-pennie-800: #9c360c;
   --color-pennie-700: #be4b0c;
@@ -11,6 +12,7 @@
   --color-pennie-300: #fcb975;
   --color-pennie-200: #fdd3a4;
   --color-pennie-100: #ffedd5;
+  --color-pennie-50: #fff7ed;
 
   --color-slate-900: #0f172a;
   --color-slate-800: #1e293b;

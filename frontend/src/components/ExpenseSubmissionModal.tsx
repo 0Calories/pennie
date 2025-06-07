@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { API_ENDPOINTS } from '../config/api';
 import Modal from './Modal';
 import Spinner from './Spinner';
-import TextInput from './TextInput';
-import { Button } from './core/Button';
+import { Button } from './core/button/Button';
+import TextInput from './core/textinput/TextInput';
 
 interface ExpenseSubmissionModalProps {
   isOpen: boolean;

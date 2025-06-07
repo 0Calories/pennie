@@ -31,6 +31,7 @@ export default function ExpenseInput({ onSubmit }: ExpenseInputProps) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
 
         body: JSON.stringify({ message: input } satisfies ParseExpenseRequest),

@@ -39,7 +39,7 @@ describe('Expense Integration Tests', () => {
       const response = await request(app)
         .post('/api/expenses/parse')
         .set('Authorization', `Bearer ${authToken}`)
-        .send({ message: '$50 italian dinner' });
+        .send({ message: '$5 coffee' });
 
       expect(response.status).toBe(200);
       expect(response.body.data).toMatchObject(sampleExpenseResponse);
@@ -53,6 +53,13 @@ describe('Expense Integration Tests', () => {
 
       expect(response.status).toBe(400);
       expect(response.body.error).toBe('Invalid request format');
+    });
+
+    it('should reject requests from unauthenticated users', async () => {
+      const response = await request(app)
+        .post('/api/expenses/parse')
+        .send({ message: '$5 coffee' });
+      expect(response.status).toBe(401);
     });
   });
 
@@ -120,6 +127,14 @@ describe('Expense Integration Tests', () => {
 
       expect(response.status).toBe(400);
       expect(response.body.error).toBe('Invalid expense category');
+    });
+
+    // TODO: This is a bit repetitive so maybe eventually we should write a unit test for the middleware
+    it('should reject requests from unauthenticated users', async () => {
+      const response = await request(app)
+        .post('/api/expenses/save')
+        .send({ expense: { name: 'Test Expense', cost: 10, category: 'FOOD' } });
+      expect(response.status).toBe(401);
     });
   });
 });

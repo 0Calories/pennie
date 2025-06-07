@@ -9,6 +9,7 @@ interface ExpenseInputProps {
 
 export default function ExpenseInput({ onSubmit }: ExpenseInputProps) {
   const [input, setInput] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,12 +30,16 @@ export default function ExpenseInput({ onSubmit }: ExpenseInputProps) {
           onChange={setInput}
           placeholder="Add an expense"
           className="rounded-r-none border-r-1"
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
         />
         <IconButton
           icon={<IconPlane />}
           onClick={handleSubmit}
           size="lg"
-          className="h-12 w-12 p-0 border-2 rounded-l-none border-l-0 border-pennie-600 ml-[1px]"
+          className={`h-12 w-12 p-0 border-1 rounded-l-none border-l-0 border-pennie-600 ml-[1px] ${
+            isFocused ? 'ring-3 ring-pennie-600' : ''
+          }`}
         />
       </form>
     </div>

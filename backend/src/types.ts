@@ -17,8 +17,14 @@ export const SaveExpenseRequestSchema = z.object({
   expense: ExpenseSchema,
 });
 
+export const UserRegistrationSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(8, 'Password must be at least 8 characters long'),
+});
+
 export type ParseExpenseRequest = z.infer<typeof ParseExpenseRequestSchema>;
 export type SaveExpenseRequest = z.infer<typeof SaveExpenseRequestSchema>;
+export type UserRegistration = z.infer<typeof UserRegistrationSchema>;
 
 // API Response Types
 export const ApiErrorResponseSchema = z.object({

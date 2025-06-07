@@ -33,58 +33,53 @@ router.post(
   }
 );
 
-router.post(
-  '/save',
-  validateRequest(SaveExpenseRequestSchema),
-  validateResponse(ApiSuccessResponseSchema),
-  async (req, res) => {
-    try {
-      const { expense } = req.validatedData as InferZodType<typeof SaveExpenseRequestSchema>;
+router.post('/save', validateRequest(SaveExpenseRequestSchema), async (req, res) => {
+  try {
+    const { expense } = req.validatedData as InferZodType<typeof SaveExpenseRequestSchema>;
 
-      const cost = parseFloat(expense.cost.toString());
-      if (isNaN(cost) || cost <= 0) {
-        res.status(400).json({
-          error: 'Invalid expense cost',
-          details: 'Cost must be a positive number',
-        } satisfies typeof ApiErrorResponseSchema._type);
-        return;
-      }
-
-      if (expense.name.length > MAX_EXPENSE_NAME_LENGTH) {
-        res.status(400).json({
-          error: 'Invalid expense name',
-          details: `Name must be ${MAX_EXPENSE_NAME_LENGTH} characters or less`,
-        } satisfies typeof ApiErrorResponseSchema._type);
-        return;
-      }
-
-      const category = expense.category.toUpperCase();
-      if (!Object.values(ExpenseCategory).includes(category as ExpenseCategory)) {
-        res.status(400).json({
-          error: 'Invalid expense category',
-          details: `Category must be one of: ${Object.values(ExpenseCategory).join(', ')}`,
-        } satisfies typeof ApiErrorResponseSchema._type);
-        return;
-      }
-
-      const savedExpense = await prisma.expense.create({
-        data: {
-          name: expense.name,
-          cost: cost,
-          category: category as ExpenseCategory,
-          userId: '1',
-        },
-      });
-
-      req.validatedResponse!.json({ data: savedExpense });
-    } catch (error) {
-      console.error('Error saving expense:', error);
-      res.status(500).json({
-        error: 'Failed to save expense',
-        details: error instanceof Error ? error.message : 'Unknown error',
+    const cost = parseFloat(expense.cost.toString());
+    if (isNaN(cost) || cost <= 0) {
+      res.status(400).json({
+        error: 'Invalid expense cost',
+        details: 'Cost must be a positive number',
       } satisfies typeof ApiErrorResponseSchema._type);
+      return;
     }
+
+    if (expense.name.length > MAX_EXPENSE_NAME_LENGTH) {
+      res.status(400).json({
+        error: 'Invalid expense name',
+        details: `Name must be ${MAX_EXPENSE_NAME_LENGTH} characters or less`,
+      } satisfies typeof ApiErrorResponseSchema._type);
+      return;
+    }
+
+    const category = expense.category.toUpperCase();
+    if (!Object.values(ExpenseCategory).includes(category as ExpenseCategory)) {
+      res.status(400).json({
+        error: 'Invalid expense category',
+        details: `Category must be one of: ${Object.values(ExpenseCategory).join(', ')}`,
+      } satisfies typeof ApiErrorResponseSchema._type);
+      return;
+    }
+
+    const savedExpense = await prisma.expense.create({
+      data: {
+        name: expense.name,
+        cost: cost,
+        category: category as ExpenseCategory,
+        userId: '1',
+      },
+    });
+
+    res.status(201).json({ data: savedExpense });
+  } catch (error) {
+    console.error('Error saving expense:', error);
+    res.status(500).json({
+      error: 'Failed to save expense',
+      details: error instanceof Error ? error.message : 'Unknown error',
+    } satisfies typeof ApiErrorResponseSchema._type);
   }
-);
+});
 
 export default router;

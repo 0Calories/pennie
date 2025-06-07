@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { AnyZodObject, ZodError } from 'zod';
-import { InferZodType } from './types';
+import { AnyZodObject } from 'zod';
 
 export const validateRequest = <T extends AnyZodObject>(schema: T) => {
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {

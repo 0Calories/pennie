@@ -15,7 +15,7 @@ function App() {
         </main>
 
         <ExpenseInput />
-        <ExpenseSubmissionModal isOpen={true} onClose={() => {}} onSubmit={() => {}} />
+        <ExpenseSubmissionModal />
       </div>
     </ThemeProvider>
   );

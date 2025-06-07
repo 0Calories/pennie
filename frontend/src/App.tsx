@@ -3,11 +3,60 @@ import ExpenseInput from './components/ExpenseInput';
 import Navbar from './components/sidebar/Sidebar';
 import { ThemeProvider } from './theme/ThemeProvider';
 import './App.css';
+import type {
+  ApiErrorResponse,
+  ApiSuccessResponse,
+  ParseExpenseRequest,
+  ParsedExpense,
+} from '@shared/types/api';
+import { ExpenseCategory } from '@shared/types/expense';
 import { useState } from 'react';
 import ExpenseSubmissionModal from './components/ExpenseSubmissionModal';
+import { API_ENDPOINTS } from './config/api';
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [parsedExpense, setParsedExpense] = useState<{
+    name: string;
+    cost: string;
+    category: ExpenseCategory;
+  } | null>(null);
+
+  const handleExpenseSubmit = async (message: string) => {
+    setIsModalOpen(true);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(API_ENDPOINTS.parseExpense, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({ message } satisfies ParseExpenseRequest),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        const errorData = data as ApiErrorResponse;
+        console.error('Error parsing expense:', errorData.error, errorData.details);
+        return;
+      }
+
+      const successData = data as ApiSuccessResponse<ParsedExpense>;
+      setParsedExpense({
+        name: successData.data.name,
+        cost: successData.data.cost.toString(),
+        category: successData.data.category as ExpenseCategory,
+      });
+    } catch (error) {
+      console.error('Failed to parse expense:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <ThemeProvider>
@@ -17,8 +66,16 @@ function App() {
           <Dashboard />
         </main>
 
-        <ExpenseInput onSubmit={() => setIsModalOpen(true)} />
-        <ExpenseSubmissionModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        <ExpenseInput onSubmit={handleExpenseSubmit} />
+        <ExpenseSubmissionModal
+          isOpen={isModalOpen}
+          onClose={() => {
+            setIsModalOpen(false);
+            setParsedExpense(null);
+          }}
+          initialExpense={parsedExpense ?? undefined}
+          isLoading={isLoading}
+        />
       </div>
     </ThemeProvider>
   );

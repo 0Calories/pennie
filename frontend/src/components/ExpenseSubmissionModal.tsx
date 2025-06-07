@@ -1,17 +1,39 @@
 import { ExpenseCategory, getExpenseCategoryDisplayName } from '@shared/types/expense';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from './Button';
 import Modal from './Modal';
+import Spinner from './Spinner';
 
 interface ExpenseSubmissionModalProps {
   isOpen: boolean;
   onClose: () => void;
+  initialExpense?: {
+    name: string;
+    cost: string;
+    category: ExpenseCategory;
+  };
+  isLoading?: boolean;
 }
 
-export default function ExpenseSubmissionModal({ isOpen, onClose }: ExpenseSubmissionModalProps) {
-  const [name, setName] = useState('');
-  const [cost, setCost] = useState('');
-  const [category, setCategory] = useState<ExpenseCategory>(ExpenseCategory.OTHER);
+export default function ExpenseSubmissionModal({
+  isOpen,
+  onClose,
+  initialExpense,
+  isLoading = false,
+}: ExpenseSubmissionModalProps) {
+  const [name, setName] = useState(initialExpense?.name ?? '');
+  const [cost, setCost] = useState(initialExpense?.cost ?? '');
+  const [category, setCategory] = useState<ExpenseCategory>(
+    initialExpense?.category ?? ExpenseCategory.OTHER
+  );
+
+  useEffect(() => {
+    if (initialExpense) {
+      setName(initialExpense.name);
+      setCost(initialExpense.cost);
+      setCategory(initialExpense.category);
+    }
+  }, [initialExpense]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,6 +43,7 @@ export default function ExpenseSubmissionModal({ isOpen, onClose }: ExpenseSubmi
     setName('');
     setCost('');
     setCategory(ExpenseCategory.OTHER);
+    onClose();
   };
 
   return (
@@ -33,14 +56,22 @@ export default function ExpenseSubmissionModal({ isOpen, onClose }: ExpenseSubmi
           >
             Expense Name
           </label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            className="w-full px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-pennie-500"
-          />
+          <div className="relative">
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              disabled={isLoading}
+              className="w-full px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-pennie-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            />
+            {isLoading && (
+              <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                <Spinner size="sm" />
+              </div>
+            )}
+          </div>
         </div>
 
         <div>
@@ -58,7 +89,8 @@ export default function ExpenseSubmissionModal({ isOpen, onClose }: ExpenseSubmi
             required
             min="0"
             step="0.01"
-            className="w-full px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-pennie-500"
+            disabled={isLoading}
+            className="w-full px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-pennie-500 disabled:opacity-50 disabled:cursor-not-allowed"
             placeholder="0.00"
           />
         </div>
@@ -75,7 +107,8 @@ export default function ExpenseSubmissionModal({ isOpen, onClose }: ExpenseSubmi
             value={category}
             onChange={(e) => setCategory(e.target.value as ExpenseCategory)}
             required
-            className="w-full px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-pennie-500"
+            disabled={isLoading}
+            className="w-full px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-pennie-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {Object.values(ExpenseCategory).map((c) => (
               <option key={c} value={c}>
@@ -88,12 +121,15 @@ export default function ExpenseSubmissionModal({ isOpen, onClose }: ExpenseSubmi
         <div className="flex justify-center space-x-3 mt-20">
           <Button
             type="button"
-            onClick={() => {}}
-            className="bg-slate-200 hover:bg-slate-300 text-slate-800 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-100"
+            onClick={onClose}
+            disabled={isLoading}
+            className="bg-slate-200 hover:bg-slate-300 text-slate-800 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-100 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Cancel
           </Button>
-          <Button type="submit">Save</Button>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? <Spinner size="sm" className="mx-2" /> : 'Save'}
+          </Button>
         </div>
       </form>
     </Modal>

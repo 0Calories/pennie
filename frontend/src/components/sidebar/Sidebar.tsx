@@ -1,5 +1,3 @@
-import { SidebarButton } from './SidebarButton';
-
 const Navbar = () => {
   return (
     <aside className="fixed left-0 top-0 h-dvh w-48 bg-white dark:bg-slate-800 shadow-lg transition-colors">
@@ -13,10 +11,10 @@ const Navbar = () => {
           </div>
         </div>
         <nav className="flex flex-col space-y-4">
-          <SidebarButton text="Home" />
+          {/* <SidebarButton text="Home" />
           <SidebarButton text="Dashboard" />
           <SidebarButton text="Transactions" />
-          <SidebarButton text="Settings" />
+          <SidebarButton text="Settings" /> */}
         </nav>
       </div>
     </aside>

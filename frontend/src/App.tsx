@@ -3,6 +3,7 @@ import ExpenseInput from './components/ExpenseInput';
 import Navbar from './components/sidebar/Sidebar';
 import { ThemeProvider } from './theme/ThemeProvider';
 import './App.css';
+import ExpenseSubmissionModal from './components/ExpenseSubmissionModal';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         </main>
 
         <ExpenseInput />
+        <ExpenseSubmissionModal isOpen={true} onClose={() => {}} onSubmit={() => {}} />
       </div>
     </ThemeProvider>
   );

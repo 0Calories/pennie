@@ -1,10 +1,11 @@
 import argon2 from 'argon2';
 import { Router } from 'express';
-import { z } from 'zod';
+import rateLimit from 'express-rate-limit';
 import { PrismaClient } from '../generated/prisma';
 import { InferZodType } from '../middleware/types';
 import { validateRequest } from '../middleware/validation';
 import { ApiErrorResponseSchema, UserCredentialsSchema } from '../types';
+import { generateToken } from '../utils/jwt';
 
 const router = Router();
 const prisma = new PrismaClient();
@@ -15,6 +16,20 @@ if (!PEPPER) {
     'Warning: PASSWORD_PEPPER environment variable not set. Consider setting it for additional security.'
   );
 }
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // 5 attempts per window
+  message: {
+    error: 'Too many attempts',
+    details: 'Please try again after 15 minutes',
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+router.use('/login', authLimiter);
+router.use('/register', authLimiter);
 
 router.post('/register', validateRequest(UserCredentialsSchema), async (req, res) => {
   try {
@@ -46,7 +61,11 @@ router.post('/register', validateRequest(UserCredentialsSchema), async (req, res
       },
     });
 
-    res.status(201).json({ data: { message: 'User registered successfully' } });
+    res.status(201).json({
+      data: {
+        message: 'User registered successfully',
+      },
+    });
   } catch (error) {
     console.error('Registration error:', error);
     res.status(500).json({
@@ -86,7 +105,14 @@ router.post('/login', validateRequest(UserCredentialsSchema), async (req, res) =
       return;
     }
 
-    res.status(200).json({ data: { message: 'Login successful' } });
+    const token = generateToken(user.id);
+
+    res.status(200).json({
+      data: {
+        message: 'Login successful',
+        token,
+      },
+    });
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({

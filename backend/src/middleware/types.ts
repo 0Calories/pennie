@@ -1,6 +1,5 @@
 import { AnyZodObject } from 'zod';
 
-// Make the request type generic based on the schema
 declare global {
   namespace Express {
     interface Request {
@@ -8,6 +7,7 @@ declare global {
       validatedResponse?: {
         json: (body: any) => Response;
       };
+      userId?: string;
     }
   }
 }

@@ -1,6 +1,7 @@
 import { MAX_EXPENSE_NAME_LENGTH } from '@shared/constants/constants';
 import { Router } from 'express';
 import { ExpenseCategory, PrismaClient } from '../generated/prisma';
+import { requireAuth } from '../middleware/auth';
 import { InferZodType } from '../middleware/types';
 import { validateRequest, validateResponse } from '../middleware/validation';
 import {
@@ -16,6 +17,7 @@ const prisma = new PrismaClient();
 
 router.post(
   '/parse',
+  requireAuth,
   validateRequest(ParseExpenseRequestSchema),
   validateResponse(ApiSuccessResponseSchema),
   async (req, res) => {
@@ -33,7 +35,7 @@ router.post(
   }
 );
 
-router.post('/save', validateRequest(SaveExpenseRequestSchema), async (req, res) => {
+router.post('/save', requireAuth, validateRequest(SaveExpenseRequestSchema), async (req, res) => {
   try {
     const { expense } = req.validatedData as InferZodType<typeof SaveExpenseRequestSchema>;
 
@@ -68,7 +70,7 @@ router.post('/save', validateRequest(SaveExpenseRequestSchema), async (req, res)
         name: expense.name,
         cost: cost,
         category: category as ExpenseCategory,
-        userId: '1',
+        userId: req.userId!,
       },
     });
 

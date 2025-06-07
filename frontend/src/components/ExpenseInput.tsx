@@ -23,13 +23,18 @@ export default function ExpenseInput({ onSubmit }: ExpenseInputProps) {
 
   return (
     <div className="fixed bottom-0 left-48 right-0 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 p-4">
-      <form onSubmit={handleSubmit} className="max-w-4xl mx-auto flex items-center gap-2">
-        <TextInput value={input} onChange={setInput} placeholder="Add an expense" />
+      <form onSubmit={handleSubmit} className="max-w-4xl mx-auto flex items-center">
+        <TextInput
+          value={input}
+          onChange={setInput}
+          placeholder="Add an expense"
+          className="rounded-r-none border-r-1"
+        />
         <IconButton
           icon={<IconPlane />}
           onClick={handleSubmit}
           size="lg"
-          className="h-12 w-12 p-0"
+          className="h-12 w-12 p-0 border-2 rounded-l-none border-l-0 border-pennie-600 ml-[1px]"
         />
       </form>
     </div>

@@ -1,6 +1,12 @@
 import { PrismaClient } from '../generated/prisma';
 
-const prisma = new PrismaClient();
+// Mock OpenAI module globally
+jest.mock('../utils/openAI', () => ({
+  parseExpense: jest.fn(),
+}));
+
+// Create a single PrismaClient instance for all tests
+export const prisma = new PrismaClient();
 
 beforeAll(async () => {
   await prisma.$connect();
@@ -16,6 +22,3 @@ afterEach(async () => {
 afterAll(async () => {
   await prisma.$disconnect();
 });
-
-// Export prisma instance for use in tests
-export { prisma };
